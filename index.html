@@ -1,0 +1,319 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  #er{font-family:'Crimson Pro',Georgia,serif;background:#080604;color:#e8d5a3;min-height:620px;width:100%;position:relative;overflow:hidden}
+  .scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.12) 2px,rgba(0,0,0,0.12) 4px);pointer-events:none;z-index:10}
+  .vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.65) 100%);pointer-events:none;z-index:9}
+  .scr{display:none;padding:2rem 1.5rem;min-height:620px;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;z-index:1}
+  .scr.on{display:flex}
+  .ttl{font-family:'Cinzel Decorative',serif;font-size:clamp(1.1rem,3.5vw,1.9rem);color:#d4a017;text-shadow:0 0 18px rgba(212,160,23,0.5);animation:flk 5s infinite;margin-bottom:0.3rem}
+  .sub{font-size:1rem;color:#8a6a40;font-style:italic;margin-bottom:1.5rem}
+  @keyframes flk{0%,94%,100%{opacity:1}95%{opacity:.8}97%{opacity:.6}99%{opacity:.9}}
+  .lore{max-width:500px;font-size:1.05rem;line-height:1.85;color:#c8b07a;background:rgba(212,160,23,0.04);border:1px solid rgba(212,160,23,0.18);border-radius:3px;padding:1.25rem;margin:1rem 0}
+  .btn{font-family:'Cinzel Decorative',serif;font-size:0.78rem;color:#080604;background:#d4a017;border:none;padding:0.65rem 1.8rem;border-radius:2px;cursor:pointer;letter-spacing:0.1em;margin-top:0.8rem;transition:all 0.2s;text-transform:uppercase}
+  .btn:hover{background:#f0bc2a;transform:translateY(-1px)}
+  .bg{background:transparent;color:#d4a017;border:1px solid rgba(212,160,23,0.35);font-family:'Cinzel Decorative',serif;font-size:0.7rem;padding:0.45rem 0.9rem;border-radius:2px;cursor:pointer;margin:0.3rem;transition:all 0.2s;text-transform:uppercase}
+  .bg:hover{background:rgba(212,160,23,0.12)}
+  .bg:disabled{opacity:0.4;cursor:default}
+  .box{background:rgba(16,10,4,0.92);border:1px solid rgba(212,160,23,0.25);border-radius:3px;padding:1.5rem;max-width:480px;width:100%;margin:0.8rem 0}
+  .ptl{font-family:'Cinzel Decorative',serif;font-size:0.85rem;color:#d4a017;margin-bottom:0.8rem}
+  .clue{font-size:1.05rem;line-height:1.85;color:#d4c08a;font-style:italic;margin-bottom:1.2rem}
+  .opts{display:flex;gap:0.35rem;flex-wrap:wrap;justify-content:center;margin-bottom:0.5rem}
+  .opt-btn{background:rgba(212,160,23,0.06);color:#c8a060;border:1px solid rgba(212,160,23,0.3);font-family:'Crimson Pro',serif;font-size:1.05rem;padding:0.45rem 1rem;border-radius:2px;cursor:pointer;min-width:52px;transition:all 0.2s}
+  .opt-btn:hover{background:rgba(212,160,23,0.18);color:#d4a017;border-color:rgba(212,160,23,0.6)}
+  .opt-btn:disabled{opacity:0.4;cursor:default}
+  .fb{font-size:0.95rem;margin-top:0.6rem;min-height:1.3rem;font-style:italic}
+  .fb.w{color:#b03030}.fb.r{color:#4a9e4a}
+  .pbar{display:flex;gap:4px;margin-bottom:1.2rem;flex-wrap:wrap;justify-content:center;max-width:320px}
+  .pip{width:16px;height:6px;border-radius:1px;background:rgba(212,160,23,0.12);border:0.5px solid rgba(212,160,23,0.2);transition:background 0.4s}
+  .pip.d{background:#d4a017}
+  .rn{font-family:'Cinzel Decorative',serif;font-size:0.6rem;color:#50381a;letter-spacing:0.12em;margin-bottom:0.2rem}
+  .div{width:60px;height:1px;background:rgba(212,160,23,0.25);margin:0.7rem auto}
+  .map-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:340px;margin:1rem 0}
+  .mroom{background:rgba(212,160,23,0.07);border:0.5px solid rgba(212,160,23,0.2);border-radius:2px;padding:8px 4px;font-family:'Cinzel Decorative',serif;font-size:0.55rem;color:#806030;cursor:pointer;transition:all 0.2s;text-align:center;line-height:1.5}
+  .mroom:hover{background:rgba(212,160,23,0.15);color:#d4a017}
+  .mroom.done{background:rgba(212,160,23,0.2);border-color:rgba(212,160,23,0.5);color:#d4a017}
+  .mroom.current{border:1px solid #d4a017;color:#d4a017;background:rgba(212,160,23,0.12)}
+  .mroom.locked{opacity:0.3;cursor:default;pointer-events:none}
+  .hint{font-size:0.88rem;color:#7a5828;font-style:italic;margin-top:0.5rem;max-width:380px;display:none}
+  @keyframes pgld{0%,100%{text-shadow:0 0 8px rgba(212,160,23,0.3)}50%{text-shadow:0 0 22px rgba(212,160,23,0.85)}}
+  .glow{animation:pgld 2s infinite;color:#d4a017}
+  .ftl{font-family:'Cinzel Decorative',serif;font-size:clamp(1.4rem,4.5vw,2.4rem);color:#d4a017;animation:flk 3s infinite;margin-bottom:0.6rem}
+</style>
+
+<div id="er">
+  <div class="scan"></div>
+  <div class="vig"></div>
+
+  <div class="scr on" id="s0">
+    <div class="ttl">&#127383; La Mansión de los 15 Enigmas</div>
+    <div class="sub">Cumpleaños de Hiro — Edición Especial</div>
+    <div style="font-size:3.5rem;margin:0.5rem 0;filter:drop-shadow(0 0 10px rgba(212,160,23,0.4))">&#128274;</div>
+    <div class="lore">
+      Querida <strong>Hiro</strong>, has sido atrapada en la Mansión de los 15 Enigmas.<br><br>
+      Cada sala oculta un acertijo. Elige la respuesta correcta entre varias opciones para abrir la puerta.<br><br>
+      <em>La suma de todas las respuestas correctas es exactamente 15.</em>
+    </div>
+    <button class="btn" onclick="goRoom(0)">&#9654; Entrar a la Mansión</button>
+  </div>
+
+  <div class="scr" id="smap">
+    <div class="ttl" style="font-size:1.1rem">Mapa de la Mansión</div>
+    <div class="sub">Elige tu próxima sala</div>
+    <div class="map-grid" id="mapgrid"></div>
+    <div style="font-size:0.85rem;color:#806030;font-style:italic;margin-top:0.5rem" id="map-progress"></div>
+    <button class="btn" style="margin-top:1rem;font-size:0.7rem" onclick="goRoom(current)">&#9654; Continuar</button>
+  </div>
+
+  <div class="scr" id="sroom">
+    <div class="pbar" id="pbar"></div>
+    <div class="rn" id="room-label"></div>
+    <div class="ttl" style="font-size:1.15rem" id="room-title"></div>
+    <div class="div"></div>
+    <div class="box">
+      <div class="ptl" id="room-ptl"></div>
+      <div class="clue" id="room-clue"></div>
+      <div id="room-choices" class="opts"></div>
+      <div class="fb" id="room-fb"></div>
+      <div class="hint" id="room-hint"></div>
+      <div style="margin-top:0.7rem">
+        <button class="bg" onclick="toggleHint()">&#128161; Pista</button>
+        <button class="bg" onclick="showMap()">&#128506; Mapa</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="scr" id="sfinal">
+    <div class="ftl">&#127881; ¡Escapaste, Hiro! &#127881;</div>
+    <div style="font-size:2rem;margin:0.5rem 0;letter-spacing:0.2em">&#127800; &#11088; &#127873; &#11088; &#127800;</div>
+    <div class="lore" style="font-size:1.1rem;line-height:1.95">
+      Las 15 puertas se abrieron ante ti.<br>
+      La suma de todos los enigmas fue <strong style="color:#d4a017">15</strong> — el número de este nuevo año.<br><br>
+      <span class="glow">&#10022; Feliz Cumpleaños Número 15, Hiro &#10022;</span><br><br>
+      Que cada año sea una nueva mansión llena de<br>
+      misterios, aventuras y amor infinito.<br><br>
+      <em>Te quiero muchísimo, Maci</em>
+    </div>
+    <div style="font-size:1.5rem;margin:0.5rem 0;letter-spacing:0.18em">&#127880; &#127882; &#127881;</div>
+    <button class="btn" onclick="restart()">&#8635; Jugar de Nuevo</button>
+  </div>
+</div>
+
+<script>
+const ROOMS = [
+  {
+    title:"La Sala del Espejo", icon:"&#128302;", ptl:"El Doble Reflejo",
+    clue:"En el espejo ves tu reflejo multiplicado. Si tienes 3 espejos enfrentados y cada uno duplica la imagen anterior: 1, 2, 4... ¿cuántas imágenes hay en el tercer espejo?",
+    opts:["3","5","4","7","6","8"], ans:"4",
+    hint:"1 → x2 → 2 → x2 → 4"
+  },
+  {
+    title:"La Biblioteca Maldita", icon:"&#128218;", ptl:"El Libro Prohibido",
+    clue:"Un libro tiene 7 capítulos. Lees todos los impares. ¿Cuántos capítulos leíste? (capítulos impares del 1 al 7)",
+    opts:["2","4","3","5","6","1"], ans:"4",
+    hint:"1, 3, 5, 7 → son 4 capítulos impares."
+  },
+  {
+    title:"El Cuarto del Reloj", icon:"&#9200;", ptl:"Las Manecillas",
+    clue:"A las 12:00 las manecillas se tocan. ¿Cuántas veces al día (12 horas) las manecillas forman exactamente las 3:00 o las 9:00? (suma ambas posiciones)",
+    opts:["1","3","4","2","5","6"], ans:"2",
+    hint:"Las 3:00 ocurre 1 vez y las 9:00 ocurre 1 vez en 12h → 1+1=2"
+  },
+  {
+    title:"El Jardín Secreto", icon:"&#127808;", ptl:"Las Rosas",
+    clue:"Tienes 12 rosas. Regalas la tercera parte. ¿Cuántas rosas te quedan?",
+    opts:["3","6","9","8","4","5"], ans:"8",
+    hint:"12 ÷ 3 = 4 regaladas → 12 − 4 = 8"
+  },
+  {
+    title:"La Torre del Astrólogo", icon:"&#127775;", ptl:"El Planeta Rojo",
+    clue:"Marte es el cuarto planeta del sistema solar. Júpiter es el quinto. ¿Cuántos planetas hay entre Marte y Saturno (sin incluirlos)?",
+    opts:["0","2","3","1","4","5"], ans:"1",
+    hint:"Marte → Júpiter → Saturno. Entre Marte y Saturno solo está Júpiter = 1."
+  },
+  {
+    title:"La Catacumba", icon:"&#128128;", ptl:"Los Huesos",
+    clue:"Hay 20 esqueletos. La mitad son de animales. De los humanos, solo sobrevivieron los que tienen número par de costillas (los humanos tienen 24). ¿Cuántos esqueletos humanos hay?",
+    opts:["5","10","8","12","6","4"], ans:"10",
+    hint:"20 ÷ 2 = 10 humanos (todos tienen 24 costillas, que es par, así que sobreviven los 10)."
+  },
+  {
+    title:"El Laboratorio", icon:"&#128300;", ptl:"La Poción",
+    clue:"Una poción necesita 3 ingredientes mágicos por cada dosis. Si quieres hacer 4 dosis pero ya tienes 6 ingredientes, ¿cuántos te faltan?",
+    opts:["3","8","6","4","5","7"], ans:"6",
+    hint:"4 dosis × 3 = 12 ingredientes. 12 − 6 = 6."
+  },
+  {
+    title:"El Observatorio", icon:"&#127358;", ptl:"Las Constelaciones",
+    clue:"Orión tiene 7 estrellas principales. La Osa Mayor tiene 7. Si cada constelación comparte 1 estrella con la vecina en el cielo, ¿cuántas estrellas únicas hay en total?",
+    opts:["12","14","13","15","11","10"], ans:"13",
+    hint:"7 + 7 − 1 (compartida) = 13."
+  },
+  {
+    title:"La Sala de Música", icon:"&#127925;", ptl:"La Melodía Perdida",
+    clue:"Una octava musical tiene 8 notas (Do a Do). Si una canción repite la octava 3 veces pero omite las últimas 2 notas cada vez, ¿cuántas notas suenan en total?",
+    opts:["18","24","16","20","14","12"], ans:"18",
+    hint:"(8 − 2) × 3 = 6 × 3 = 18."
+  },
+  {
+    title:"La Armería", icon:"&#9876;", ptl:"El Arsenal",
+    clue:"Un caballero tiene el triple de espadas que de escudos. Si tiene 9 espadas, ¿cuántos escudos tiene?",
+    opts:["2","4","3","6","5","1"], ans:"3",
+    hint:"9 ÷ 3 = 3 escudos."
+  },
+  {
+    title:"La Cocina Encantada", icon:"&#127859;", ptl:"El Banquete",
+    clue:"El chef prepara 5 platillos para 4 personas. A cada persona le toca la misma cantidad. ¿Cuántos platillos sobran si no se pueden dividir?",
+    opts:["0","2","1","3","4","5"], ans:"1",
+    hint:"5 ÷ 4 = 1 con residuo de 1. Sobra 1."
+  },
+  {
+    title:"La Mazmorra", icon:"&#129404;", ptl:"El Laberinto",
+    clue:"El laberinto tiene 4 caminos. Dos llevan a trampas, uno regresa al inicio y uno lleva a la salida. Si ya eliminaste los 2 de trampas, ¿cuántos caminos posibles te quedan?",
+    opts:["1","3","4","2","5","6"], ans:"2",
+    hint:"4 − 2 trampas = 2 caminos restantes (el del inicio y la salida)."
+  },
+  {
+    title:"La Sala del Trono", icon:"&#128081;", ptl:"El Rey y la Reina",
+    clue:"El rey tiene 10 monedas de oro y la reina tiene 6. El rey le da a la reina el 20% de las suyas. ¿Cuántas monedas tiene el rey ahora?",
+    opts:["6","9","7","8","5","4"], ans:"8",
+    hint:"20% de 10 = 2. El rey da 2, le quedan 8."
+  },
+  {
+    title:"La Capilla", icon:"&#9962;", ptl:"Las Velas Sagradas",
+    clue:"Hay 9 velas encendidas. Cada hora se apaga una tercera parte. Después de 2 horas, ¿cuántas velas siguen encendidas? (en la segunda hora se apaga 1/3 de las que quedaban)",
+    opts:["3","5","6","4","2","7"], ans:"4",
+    hint:"9 → apaga 3 → quedan 6 → apaga 2 → quedan 4."
+  },
+  {
+    title:"La Cámara Final", icon:"&#128273;", ptl:"El Sello del Destino",
+    clue:"Has recorrido 14 salas. La suma de todos los números que obtuviste es 11. ¿Qué número debes encontrar aquí para que el gran sello marque exactamente 15?",
+    opts:["2","5","3","4","6","1"], ans:"4",
+    hint:"15 − 11 = 4. Este es el último sello."
+  }
+];
+
+let solved = new Array(15).fill(false);
+let current = 0;
+
+function buildPbar(){
+  const p=document.getElementById('pbar');
+  p.innerHTML='';
+  for(let i=0;i<15;i++){
+    const d=document.createElement('div');
+    d.className='pip'+(solved[i]?' d':'');
+    p.appendChild(d);
+  }
+}
+
+function buildMap(){
+  const g=document.getElementById('mapgrid');
+  g.innerHTML='';
+  ROOMS.forEach((r,i)=>{
+    const d=document.createElement('div');
+    const isDone=solved[i];
+    const isCur=i===current&&!isDone;
+    const isLocked=i>0&&!solved[i-1]&&!isDone&&i!==current;
+    d.className='mroom'+(isDone?' done':isCur?' current':isLocked?' locked':'');
+    d.innerHTML=`<div style="font-size:1.1rem">${r.icon}</div><div>${i+1}</div>`;
+    if(!isLocked) d.onclick=()=>{current=i;showRoom();};
+    g.appendChild(d);
+  });
+  const done=solved.filter(Boolean).length;
+  document.getElementById('map-progress').textContent=`${done} de 15 salas resueltas`;
+}
+
+function showMap(){
+  buildMap();
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById('smap').classList.add('on');
+}
+
+function showRoom(){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById('sroom').classList.add('on');
+  renderRoom();
+}
+
+function goRoom(i){
+  current=i;
+  showRoom();
+}
+
+function renderRoom(){
+  const i=current;
+  const r=ROOMS[i];
+  document.getElementById('room-label').textContent=`Sala ${i+1} de 15`;
+  document.getElementById('room-title').innerHTML=r.icon+' '+r.title;
+  document.getElementById('room-ptl').textContent=r.ptl;
+  document.getElementById('room-clue').textContent=r.clue;
+  document.getElementById('room-fb').textContent='';
+  document.getElementById('room-fb').className='fb';
+  document.getElementById('room-hint').textContent=r.hint;
+  document.getElementById('room-hint').style.display='none';
+  buildPbar();
+  const ch=document.getElementById('room-choices');
+  ch.innerHTML='';
+  const shuffled=[...r.opts].sort(()=>Math.random()-0.5);
+  shuffled.forEach(o=>{
+    const b=document.createElement('button');
+    b.className='opt-btn';
+    b.textContent=o;
+    b.onclick=()=>checkChoice(o,b,ch);
+    ch.appendChild(b);
+  });
+}
+
+function checkChoice(v, btn, container){
+  const r=ROOMS[current];
+  const fb=document.getElementById('room-fb');
+  container.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  if(v===r.ans){
+    btn.style.background='rgba(74,158,74,0.25)';
+    btn.style.borderColor='#4a9e4a';
+    btn.style.color='#4a9e4a';
+    fb.textContent='✓ ¡Correcto! La puerta cruje y se abre...';
+    fb.className='fb r';
+    solved[current]=true;
+    buildPbar();
+    const next=current+1;
+    setTimeout(()=>{
+      if(next>=15) checkWin();
+      else goRoom(next);
+    },1400);
+  } else {
+    btn.style.background='rgba(176,48,48,0.2)';
+    btn.style.borderColor='#b03030';
+    btn.style.color='#b03030';
+    fb.textContent='✗ Esa no es la respuesta. ¿Lo intentas de nuevo?';
+    fb.className='fb w';
+    setTimeout(()=>{
+      container.querySelectorAll('.opt-btn').forEach(b=>{
+        b.disabled=false;
+        b.style.background='';
+        b.style.borderColor='';
+        b.style.color='';
+      });
+      fb.textContent='';
+    },1200);
+  }
+}
+
+function checkWin(){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById('sfinal').classList.add('on');
+}
+
+function toggleHint(){
+  const h=document.getElementById('room-hint');
+  h.style.display=h.style.display==='none'?'block':'none';
+}
+
+function restart(){
+  solved=new Array(15).fill(false);
+  current=0;
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById('s0').classList.add('on');
+}
+</script>
